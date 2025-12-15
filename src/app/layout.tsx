@@ -10,7 +10,7 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Edu-Man | School Management System",
   description: "Professional school management dashboard for administrators, teachers, and parents",
-  generator: "v0.app",
+  generator: "jaysbrain_2000",
   icons: {
     icon: [
       {

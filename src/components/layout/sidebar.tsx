@@ -14,6 +14,8 @@ import {
   LogOut,
   GraduationCap,
 } from "lucide-react"
+import { Sheet, SheetContent } from "@/components/ui/sheet"
+import { useSidebar } from "./sidebar-provider"
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -26,11 +28,12 @@ const navItems = [
   { href: "/settings", label: "Settings", icon: Settings },
 ]
 
-export function Sidebar() {
+function SidebarContent() {
   const pathname = usePathname()
+  const { setSidebarOpen } = useSidebar()
 
   return (
-    <aside className="hidden md:fixed md:left-0 md:top-0 md:bottom-0 md:w-64 md:flex md:flex-col bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
+    <div className="flex flex-col h-full bg-sidebar text-sidebar-foreground">
       <div className="p-6 border-b border-sidebar-border">
         <div className="flex items-center gap-3">
           <div className="bg-sidebar-primary p-2 rounded-lg">
@@ -51,6 +54,7 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
+              onClick={() => setSidebarOpen(false)}
               className={cn(
                 "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors",
                 isActive
@@ -71,6 +75,24 @@ export function Sidebar() {
           <span>Sign Out</span>
         </button>
       </div>
-    </aside>
+    </div>
+  )
+}
+
+export function Sidebar() {
+  const { sidebarOpen, setSidebarOpen } = useSidebar()
+
+  return (
+    <>
+      <aside className="hidden md:fixed md:left-0 md:top-0 md:bottom-0 md:w-64 md:flex md:flex-col bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
+        <SidebarContent />
+      </aside>
+
+      <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
+        <SheetContent side="left" className="p-0 w-64">
+          <SidebarContent />
+        </SheetContent>
+      </Sheet>
+    </>
   )
 }
